@@ -20,7 +20,9 @@
 
 #include <deque>
 #include <list>
+#include <iostream>
 #include <fstream>
+#include <sys/time.h>
 
 #include "core/display.h"
 #include "core/shader.h"
@@ -67,6 +69,8 @@ class Gource : public SDLApp {
     bool manual_zoom;
     bool manual_rotate;
     bool manual_camera;
+
+    long timing_log_starttime_ms;
 
     float rotation_remaining_angle;
 
@@ -209,6 +213,8 @@ class Gource : public SDLApp {
     void loadCaptions();
 
     void readLog();
+
+    void writeTimingLog(const std::string& user, const std::string& action, const std::string& file);
 
     void logReadingError(const std::string& error);
 

@@ -148,6 +148,16 @@ Gource::Gource(FrameExporter* exporter) {
 
     //if recording a video or in demo mode, or multiple repos, the slider is initially hidden
     if(exporter==0 && gGourceSettings.repo_count==1) slider.show();
+
+    //make a note of the start time of our recording if we're going to log events to file
+    struct timeval tp;
+    gettimeofday(&tp, NULL);
+    timing_log_starttime_ms = tp.tv_sec * 1000 + tp.tv_usec / 1000;
+    if(!gGourceSettings.output_timing_filename.empty()) {
+        std::ofstream timing_log;
+        timing_log.open(gGourceSettings.output_timing_filename,std::ios::trunc);
+        timing_log.close();
+    }
 }
 
 void Gource::writeCustomLog(const std::string& logfile, const std::string& output_file) {
@@ -1254,6 +1264,19 @@ void Gource::addFileAction(const RCommit& commit, const RCommitFile& cf, RFile* 
     }
 
     user->addAction(userAction);
+    writeTimingLog(commit.username, cf.action, cf.filename);
+}
+
+void Gource::writeTimingLog(const std::string& user, const std::string& action, const std::string& file) {
+    if(!gGourceSettings.output_timing_filename.empty()) {
+        std::ofstream timing_log;
+        struct timeval tp;
+        gettimeofday(&tp, NULL);
+        float offset = ((tp.tv_sec * 1000 + tp.tv_usec / 1000) - Gource::timing_log_starttime_ms) / 1000.f;
+        timing_log.open(gGourceSettings.output_timing_filename,std::ios::app);
+        timing_log << offset << "|" << user << "|" << action << "|" << file << "\n";
+        timing_log.close();
+    }
 }
 
 void Gource::interactUsers() {

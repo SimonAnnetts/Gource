@@ -100,6 +100,8 @@ if(extended_help) {
 
     printf("  --output-custom-log FILE  Output a custom format log file ('-' for STDOUT).\n\n");
 
+    printf("  --output-timing-log FILE  Output a timing log file that matches the video ('-' for STDOUT).\n\n");
+
     printf("  -b, --background-colour  FFFFFF    Background colour in hex\n");
     printf("      --background-image   IMAGE     Set a background image\n\n");
 
@@ -298,6 +300,7 @@ GourceSettings::GourceSettings() {
     arg_types["load-config"]        = "string";
     arg_types["save-config"]        = "string";
     arg_types["output-custom-log"]  = "string";
+    arg_types["output-timing-log"]  = "string";
     arg_types["path"]               = "string";
     arg_types["log-command"]        = "string";
     arg_types["background-colour"]  = "string";
@@ -531,6 +534,11 @@ void GourceSettings::commandLineOption(const std::string& name, const std::strin
         return;
     }
 
+    if(name == "output-timing-log" && value.size() > 0) {
+        output_timing_filename = value;
+        return;
+    }
+
     if(name == "log-level") {
         if(value == "warn") {
             log_level = LOG_LEVEL_WARN;
@@ -722,6 +730,13 @@ void GourceSettings::importGourceSettings(ConfFile& conffile, ConfSection* gourc
 
             conffile.invalidValueException(entry);
         }
+    }
+
+    if((entry = gource_settings->getEntry("output-timing-log")) != 0) {
+
+        if(!entry->hasValue()) conffile.entryException(entry, "specify output-timing-log (log path)");
+
+        output_timing_filename = entry->getString();
     }
 
     if((entry = gource_settings->getEntry("default-user-image")) != 0) {

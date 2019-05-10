@@ -149,6 +149,8 @@ public:
 
     std::string output_custom_filename;
 
+    std::string output_timing_filename;
+
     TextureResource* file_graphic;
 
     int log_level;
