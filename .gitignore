@@ -24,3 +24,5 @@ logs/*
 *.d
 .deps
 .dirstamp
+.vscode
+*.code-workspace
