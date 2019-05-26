@@ -42,7 +42,7 @@ public:
 
     int timingLogFrameCount;
 
-    void initTimingLog(const std::string& filename);
+    void openTimingLog(const std::string& filename);
 
     void closeTimingLog();
 

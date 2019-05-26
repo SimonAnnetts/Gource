@@ -21,7 +21,7 @@ TimeLogger timeLogger;
 
 TimeLogger::TimeLogger() {}
 
-void TimeLogger::initTimingLog(const std::string& filename) {
+void TimeLogger::openTimingLog(const std::string& filename) {
     timingLogUseFrameCount = false;
     timingLogFrameCount = 0;
     //use a frame counter rather than a time elapsed seconds counter if we're outputing to a PPM video file

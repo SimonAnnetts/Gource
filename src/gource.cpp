@@ -150,7 +150,7 @@ Gource::Gource(FrameExporter* exporter) {
     if(exporter==0 && gGourceSettings.repo_count==1) slider.show();
 
     //open timing log and make a note of the start time of our recording if we're going to log events to file by time
-    timeLogger.initTimingLog(gGourceSettings.output_timing_filename);
+    timeLogger.openTimingLog(gGourceSettings.output_timing_filename);
 }
 
 void Gource::writeCustomLog(const std::string& logfile, const std::string& output_file) {
