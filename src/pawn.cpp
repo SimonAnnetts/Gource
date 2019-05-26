@@ -16,7 +16,7 @@
 */
 
 #include "pawn.h"
-#include "time_logger.h"
+#include "timelogger.h"
 
 float gGourceShadowStrength = 0.5;
 

@@ -16,7 +16,7 @@
 */
 
 #include "file.h"
-#include "time_logger.h"
+#include "timelogger.h"
 
 float gGourceFileDiameter  = 8.0;
 

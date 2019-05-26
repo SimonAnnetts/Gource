@@ -34,7 +34,7 @@
 #include "core/mousecursor.h"
 
 #include "gource_settings.h"
-#include "time_logger.h"
+#include "timelogger.h"
 
 #include "logmill.h"
 
