@@ -46,7 +46,7 @@ SOURCES += \
     slider.cpp \
     spline.cpp \
     textbox.cpp \
-    time_logger.cpp \
+    timelogger.cpp \
     user.cpp \
     zoomcamera.cpp \
     formats/apache.cpp \
@@ -104,7 +104,7 @@ HEADERS += \
     slider.h \
     spline.h \
     textbox.h \
-    time_logger.h \
+    timelogger.h \
     user.h \
     zoomcamera.h \
     formats/apache.h \
