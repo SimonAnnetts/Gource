@@ -20,9 +20,7 @@
 
 #include <deque>
 #include <list>
-#include <iostream>
 #include <fstream>
-#include <sys/time.h>
 
 #include "core/display.h"
 #include "core/shader.h"
