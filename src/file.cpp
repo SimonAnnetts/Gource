@@ -252,7 +252,6 @@ void RFile::touch(time_t touched_timestamp, const vec3 & colour) {
 
     showName();
     setHidden(false);
-    //timeLogger.writeTimingLog("", "T", dir->getPath() + this->getName(), "");
     dir->fileUpdated(true);
 }
 

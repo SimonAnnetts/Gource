@@ -20,31 +20,24 @@
 TimeLogger timeLogger;
 
 TimeLogger::TimeLogger() {}
-//  {
-//     //make a note of the start time of our recording if we're going to log events to a timing log file
-//     struct timeval tp;
-//     gettimeofday(&tp, NULL);
-//     timing_log_starttime_ms = tp.tv_sec * 1000 + tp.tv_usec / 1000;
-//     if(!gGourceSettings.output_timing_filename.empty()) {
-//         std::ofstream timing_log;
-//         timing_log.open(gGourceSettings.output_timing_filename,std::ios::trunc);
-//         timing_log.close();
-//     }
-// }
 
 void TimeLogger::initTimingLog(const std::string& filename) {
-    //make a note of the start time of our recording if we're going to log events to a timing log file
-    struct timeval tp;
-    gettimeofday(&tp, NULL);
-    timingLogStartTimeMs = tp.tv_sec * 1000 + tp.tv_usec / 1000;
+    timingLogUseFrameCount = false;
+    timingLogFrameCount = 0;
+    //use a frame counter rather than a time elapsed seconds counter if we're outputing to a PPM video file
+    if(gGourceSettings.output_ppm_filename.size() > 0) timingLogUseFrameCount = true;
+    if(!timingLogUseFrameCount) {
+        //make a note of the start time of our recording if we're going to log time elapsed events to a timing log file
+        struct timeval tp;
+        gettimeofday(&tp, NULL);
+        timingLogStartTimeMs = tp.tv_sec * 1000 + tp.tv_usec / 1000;
+    }
     if(!filename.empty()) {
         timingLogFilename = filename;
         timingLog.open(timingLogFilename,std::ios::trunc);
         if(timingLog.is_open()) timingLogEnabled = true;
     }
-    timingLogUseFrameCount = false;
-    timingLogFrameCount = 0;
-    if(gGourceSettings.output_ppm_filename.size() > 0) timingLogUseFrameCount = true;
+
 }
 void TimeLogger::closeTimingLog() {
     if(timingLogEnabled) timingLog.close();

@@ -2332,9 +2332,6 @@ void Gource::drawFiles(float dt) {
     } else {
         root->drawFiles(dt);
     }
-    // for(std::map<std::string,RFile*>::iterator it = files.begin(); it!=files.end(); it++) {
-    //     writeTimingLog("", "DrawFile", it->second->getName(), std::to_string(dt));
-    // }
 }
 
 void Gource::drawUsers(float dt) {

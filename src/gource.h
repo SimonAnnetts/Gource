@@ -71,8 +71,6 @@ class Gource : public SDLApp {
     bool manual_rotate;
     bool manual_camera;
 
-    //long timing_log_starttime_ms;
-
     float rotation_remaining_angle;
 
     MouseCursor cursor;
@@ -214,8 +212,6 @@ class Gource : public SDLApp {
     void loadCaptions();
 
     void readLog();
-
-    //void writeTimingLog(const std::string& user, const std::string& action, const std::string& file, const std::string& comment);
 
     void logReadingError(const std::string& error);
 
