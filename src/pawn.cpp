@@ -16,14 +16,17 @@
 */
 
 #include "pawn.h"
+#include "time_logger.h"
 
 float gGourceShadowStrength = 0.5;
 
 Pawn::Pawn(const std::string& name, vec2 pos, int tagid) {
     this->name  = name;
+    this->fullname = name;
     this->pos   = pos;
     this->tagid = tagid;
     this->hidden = false;
+    this->isUser = false;
     this->speed = 1.0;
 
     selected = false;
@@ -57,6 +60,8 @@ int Pawn::getTagID() {
 }
 
 void Pawn::showName() {
+    if(isUser) timeLogger.writeTimingLog(fullname, "T", "");
+    else timeLogger.writeTimingLog("", "T", fullname);
     if(name_interval <= 0.0) name_interval = nametime;
 }
 

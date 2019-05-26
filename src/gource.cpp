@@ -149,15 +149,8 @@ Gource::Gource(FrameExporter* exporter) {
     //if recording a video or in demo mode, or multiple repos, the slider is initially hidden
     if(exporter==0 && gGourceSettings.repo_count==1) slider.show();
 
-    //make a note of the start time of our recording if we're going to log events to file
-    struct timeval tp;
-    gettimeofday(&tp, NULL);
-    timing_log_starttime_ms = tp.tv_sec * 1000 + tp.tv_usec / 1000;
-    if(!gGourceSettings.output_timing_filename.empty()) {
-        std::ofstream timing_log;
-        timing_log.open(gGourceSettings.output_timing_filename,std::ios::trunc);
-        timing_log.close();
-    }
+    //open timing log and make a note of the start time of our recording if we're going to log events to file by time
+    timeLogger.initTimingLog(gGourceSettings.output_timing_filename);
 }
 
 void Gource::writeCustomLog(const std::string& logfile, const std::string& output_file) {
@@ -233,6 +226,7 @@ void Gource::reload() {
 }
 
 void Gource::quit() {
+    timeLogger.closeTimingLog();
 }
 
 void Gource::update(float t, float dt) {
@@ -264,6 +258,7 @@ void Gource::update(float t, float dt) {
     if(frameExporter != 0 && commitlog && !gGourceSettings.shutdown) {
         if(framecount % (frameskip+1) == 0) {
             frameExporter->dump();
+            timeLogger.incTimingLogFrameCount();
         }
     }
 
@@ -1264,19 +1259,8 @@ void Gource::addFileAction(const RCommit& commit, const RCommitFile& cf, RFile* 
     }
 
     user->addAction(userAction);
-    writeTimingLog(commit.username, cf.action, cf.filename);
-}
-
-void Gource::writeTimingLog(const std::string& user, const std::string& action, const std::string& file) {
-    if(!gGourceSettings.output_timing_filename.empty()) {
-        std::ofstream timing_log;
-        struct timeval tp;
-        gettimeofday(&tp, NULL);
-        float offset = ((tp.tv_sec * 1000 + tp.tv_usec / 1000) - Gource::timing_log_starttime_ms) / 1000.f;
-        timing_log.open(gGourceSettings.output_timing_filename,std::ios::app);
-        timing_log << offset << "|" << user << "|" << action << "|" << file << "\n";
-        timing_log.close();
-    }
+    //write the actions to file
+    timeLogger.writeTimingLog(commit.username, cf.action, cf.filename);
 }
 
 void Gource::interactUsers() {
@@ -2348,6 +2332,9 @@ void Gource::drawFiles(float dt) {
     } else {
         root->drawFiles(dt);
     }
+    // for(std::map<std::string,RFile*>::iterator it = files.begin(); it!=files.end(); it++) {
+    //     writeTimingLog("", "DrawFile", it->second->getName(), std::to_string(dt));
+    // }
 }
 
 void Gource::drawUsers(float dt) {
@@ -2371,8 +2358,7 @@ void Gource::drawUsers(float dt) {
         for(std::map<std::string,RUser*>::iterator it = users.begin(); it!=users.end(); it++) {
             it->second->draw(dt);
         }
-    }
-
+    }    
 }
 
 void Gource::draw(float t, float dt) {

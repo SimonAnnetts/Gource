@@ -33,6 +33,7 @@ protected:
     vec2 shadowOffset;
 
     std::string name;
+    std::string fullname;
     float namewidth;
     vec2 accel;
     float speed;
@@ -47,6 +48,8 @@ protected:
     bool shadow;
 
     bool hidden;
+
+    bool isUser;
 
     int tagid;
 
@@ -83,12 +86,16 @@ public:
     int getTagID();
 
     const std::string& getName() const { return name; }
+    const std::string& getFullName() const { return fullname; }
 
     virtual void setSelected(bool selected);
     bool isSelected() { return selected; };
 
     void setHidden(bool hidden){ this->hidden = hidden; }
     bool isHidden() const { return hidden; }
+
+    void setPawnIsUser(bool isUser){ this->isUser = isUser; }
+    bool pawnIsUser() const { return isUser; }
 
     virtual float getAlpha() const{ return std::min(elapsed/fadetime, 1.0f); }
     virtual vec3 getColour() const { return vec3(1.0, 1.0, 1.0); }

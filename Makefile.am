@@ -52,6 +52,7 @@ gource_SOURCES = \
 	src/slider.cpp \
 	src/spline.cpp \
 	src/textbox.cpp \
+    src/time_logger.cpp \
 	src/user.cpp \
 	src/zoomcamera.cpp
 

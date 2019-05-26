@@ -38,6 +38,8 @@ RUser::RUser(const std::string& name, vec2 pos, int tagid) : Pawn(name,pos,tagid
 
     setSelected(false);
 
+    setPawnIsUser(true);
+
     last_action = 0.0;
     action_interval = 0.2;
     name_interval = 5.0;

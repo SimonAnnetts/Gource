@@ -16,6 +16,7 @@
 */
 
 #include "file.h"
+#include "time_logger.h"
 
 float gGourceFileDiameter  = 8.0;
 
@@ -67,6 +68,8 @@ RFile::RFile(const std::string & name, const vec3 & colour, const vec2 & pos, in
 
     setSelected(false);
 
+    setPawnIsUser(false);
+
     dir = 0;
 }
 
@@ -112,6 +115,7 @@ bool RFile::overlaps(const vec2& pos) const {
 void RFile::setFilename(const std::string& abs_file_path) {
 
     fullpath = abs_file_path;
+    fullname = abs_file_path;
 
     size_t pos = fullpath.rfind('/');
 
@@ -248,6 +252,7 @@ void RFile::touch(time_t touched_timestamp, const vec3 & colour) {
 
     showName();
     setHidden(false);
+    //timeLogger.writeTimingLog("", "T", dir->getPath() + this->getName(), "");
     dir->fileUpdated(true);
 }
 
